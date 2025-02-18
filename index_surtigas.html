@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Informe Ejecución Surtigas</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: Arial, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #f4f4f4;
+        }
+        #login-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: white;
+            width: 450px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            text-align: center;
+        }
+        #iframe-container {
+            display: none; /* Oculto por defecto */
+            width: 100%;
+            height: 100%;
+        }
+        iframe {
+            width: 100vw;
+            height: 105%;
+            border: none;
+        }
+        .header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 20px;
+            position: relative;
+        }
+        .logo {
+            position: absolute;
+            top: 10px;
+            left: 15px;
+        }
+        .login-box {
+            padding: 20px;
+        }
+        .logo img {
+            height: 30px;
+        }
+        .hi {
+            position: absolute;
+            top: -5px;
+            left: -20px;
+            background: #3498db;
+            color: white;
+            padding: 5px;
+            border-radius: 50%;
+            font-size: 12px;
+        }
+        .avatar img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+        }
+
+        p {
+            font-size: 12px;
+            padding: 0 15px;
+            color: #ddd;
+        }
+        
+        h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        button {
+            background: #3498db;
+            color: white;
+            padding: 10px;
+            width: 100%;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #2980b9;
+        }
+    </style>
+</head>
+<body>
+    <div id="login-container">
+        <div class="header">
+            <div class="logo">
+                <img src="data:image/png;base64,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" alt="Logo-Xuma">
+            </div>
+            <div class="welcome">
+                <div class="icono">
+                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJgAAAB9CAMAAABplVoiAAAACXBIWXMAAAMTAAADEwE9ZoPHAAAAXVBMVEUAAABBupkl05I02YgTAIVV4YMRAIJA24gSAIJT4YISAIFT4YM724cRAIE42Yla44ASAYBa44AAzpMRAYAAzZMSAYBN34MSAYAAzZNa4oASAYBa4oA/3IYAzZMSAYBI+dUfAAAAG3RSTlMAAwkNDRodJyc8P0hhYoKcn6y7w9LZ3uPn9PShFrA2AAAEAUlEQVR42s3ZbW+bMBiFYRtIE14DSXAwHvz/nzm12jjZ0uzxGYU+t9QPUaXo0rFFE9Xs06E6O++Dd111MGqyeRdC8L9+giutUdGxC+hD53KjoMovJNCa7x+tCZ/WJeZ7O4cXdVaXC53N92Xh+qRK117Ipbr2Qo0uF/KprnNEla69UKfLhbzVdY7oqGsvVOpyrb/9Nm8ut2EYbpfqSLm2hR2aYUK3KiFcGx6lbaa/GirSJZcbuuNteu6SUi651LDlw4TQ7filLse7phcNR8nF1NDnOEy0jHfxVyzB/SJkvKszZA0YjMx2gas0XCkQhAyuDQcjZOw5IncwZMPEy/i9fP4fjwpexrtKw58kL7Nn3kV3mQjZ9nuh20TItnPxMMh2caFhImRbuvjFINvWxV9+yHZ02WZiZFu7kK0moh+bu9BBmQtdlLpsqcuF7G0jV25WlitzoUaXC9mLLhdKLqpcyKYXXS4EmRYXZNpckOlyoeSizQWZNhdk2lyQaXNBps0FmTYXZNpckGlzQabNBZk2F2TKXJC5QAbXptnUB6rK7FXqlLmwmdvJlSYmriyDbHPX4exCcE0a47r2b5Axrre+MGS5x/8ARNc8Q8a55pGUHX34lbMRrkcZ5ZpZWReWyggXZCZ1jIuVJT4sdREuZrNHFy07BuRk19NmhIuT5QF50SVsJrggI2FBchGbwXWfEWTcYoJL2kx2yTKbl1WZxCwGl7CZ7JJlSeM/FmoScTG4hM1klyyzy1t1VlgMrvjN4DrBFSVrAt5CWAwucTPZBdnp88F8WHLCYnDFb1bC9ao+M590CAEJi8EVu5n/x16olR72oQwBsS5slriovdCJggku4TQJ1+NktnHeuyqJhcHFbFYa+9sl9Pb7Yrnl4+BLmCdc6I7N5L1Q/dcd8C4RFiNdkCVO3gtdnx9dAoxwQYYiXfNoPnJhyQkwwgUZ58IlSwLyAgwuXgaXXPH8TJUuP1y8DC4eJi9m4YqFLQ/MdiZgloStcBkbKzsRi61wARYry/BXSIStcpGb9YaArXKhLEbWMrAVLnqzgoW1K1zEZr0hYcUKF7NZTcJsv8JFyHpLwuoVLkZWGBLW0y5ehoM09g/L4TXsRLsEmfS5OhZWky6hVnDFL9ZyLrF6nJ8aa4PySFjPueRO16e53ozhFxtZl1zRjg9rtYWx5j8W411yNqvbaz+O/bWtM4OeYF5YjHbx8bA74doVdiVcu8Ja4ovHrrCacO0Ky0biHPeEmZbYa1fYSXD1X+uy0TDT7rEXiodld2KvPRczxbi9Cx3P73UfndOHF937b5bX5r2acO1bPepyoQL3DLWZ2T/5++q9Njo6teOM+jozasqK9nof57Fv69O3Y34CMpnjkqYMMyMAAAAASUVORK5CYII=" alt="Icono">
+                </div>
+                <h2>Informe Ejecución Surtigas</h2>
+                <p>Bienvenido(a) al Informe Ejecución Surtigas.
+                   Por favor, utiliza este recurso de manera responsable.
+                    Si tienes dudas, puedes contactarnos a jtuiran@xuma.la</p>
+            </div>
+        </div>
+        <div class="login-box">
+            <h3>Autenticación</h3>
+                <input type="text" id="username" placeholder="Usuario" required>
+                <input type="password" id="password" placeholder="Contraseña" required>
+                <button onclick="login()">Ingresar</button>
+        </div>
+    </div>
+
+    <div id="iframe-container">
+        <iframe 
+        src="https://app.powerbi.com/view?r=eyJrIjoiODEzNTI1NmItMTZiYi00YjUwLTk2NDQtMDgxMjA1YmE0ZWRhIiwidCI6ImEzNmEzYmJkLTY5ZGQtNDgzNS04NTIyLTRiOTQ0MmM5YTE3NCIsImMiOjR9">
+        </iframe>
+    </div>
+
+    <script>
+        function login() {
+            var username = document.getElementById("username").value;
+            var password = document.getElementById("password").value;
+
+            if (username === "xuma" && password === "2025") {
+                document.getElementById("login-container").style.display = "none";
+                document.getElementById("iframe-container").style.display = "block";
+            } else {
+                alert("Usuario o contraseña incorrectos.");
+            }
+        }
+    </script>
+</body>
+</html>
