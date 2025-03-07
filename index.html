@@ -9,26 +9,29 @@
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      display: flex;
-      height: 100vh;
       background-color: #f4f4f4;
       font-family: Segoe UI, wf_segoe-ui_normal, helvetica, arial, sans-serif;
     }
+    /* Sidebar posicionado de forma fija */
     #sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
       width: 240px;
-      height: 100%;
       background-color: #003f7f;
       color: white;
       display: flex;
       flex-direction: column;
-      transition: transform 0.3s ease, width 0.3s ease;
       overflow-y: auto;
+      transition: transform 0.3s ease;
+      z-index: 1000;
     }
-    /* Al ocultar el menú, se reduce su ancho a 0 para que el contenido ocupe el espacio completo */
+    /* Cuando se oculta, desliza el menú hacia la izquierda */
     #sidebar.hidden {
       transform: translateX(-100%);
-      width: 0;
     }
+    /* Ajuste de la imagen y encabezado */
     #sidebar .profile-image {
       width: 80px;
       height: 80px;
@@ -39,18 +42,15 @@
     }
     h4 {
       text-align: center;
-      font-family: Segoe UI, wf_segoe-ui_normal, helvetica, arial, sans-serif;
       font-size: 1.2em;
     }
     .section {
       margin: 1px;
       cursor: pointer;
       display: flex;
-      justify-content: space-between;
-      align-items: left;
       flex-direction: column;
       font-size: 14px;
-      font-family: Segoe UI, wf_segoe-ui_normal, helvetica, arial, sans-serif;
+      transition: background-color 0.3s ease;
     }
     .section:hover {
       background-color: #003366;
@@ -60,20 +60,20 @@
       align-self: flex-end;
     }
     .section-content {
-      width: 100%;
       max-height: 0;
       overflow: hidden;
       transition: max-height 0.3s ease-out;
       background-color: #003f7f;
     }
     .section.open .section-content {
-      max-height: 200px;
+      max-height: 250px;
     }
     .section.open i {
       transform: rotate(180deg);
     }
+    /* Botón para ocultar/mostrar el menú */
     #toggleMenu {
-      position: absolute;
+      position: fixed;
       top: 10px;
       left: 10px;
       background-color: #003f7f;
@@ -82,33 +82,39 @@
       cursor: pointer;
       border: none;
       border-radius: 5px;
-      z-index: 1000;
+      z-index: 1100;
     }
     a {
       color: white;
       text-decoration: none;
       display: block;
       font-size: 14px;
-      font-family: Segoe UI, wf_segoe-ui_normal, helvetica, arial, sans-serif;
+      transition: background-color 0.3s ease;
     }
-    #content {
-      flex-grow: 1;
-      background: #e0e0e0;
-      overflow: auto;
-      transition: width 0.3s ease;
+    a.active {
+      background-color: #00264d;
     }
     .grupo {
-      padding: 8px 8px 8px 16px;
+      padding: 8px 16px;
     }
-    .opcion {
-      padding: 8px 8px 8px 32px;
+    .opcion{
+      padding: 8px 32px;
     }
     .opcion:hover {
       background-color: #003366;
     }
+    /* Contenido: se le asigna un margen izquierdo igual al ancho del sidebar */
+    #content {
+      margin-left: 240px;
+      transition: margin-left 0.3s ease;
+    }
+    /* Cuando el menú está oculto, el contenido ocupa todo el ancho */
+    #sidebar.hidden ~ #content {
+      margin-left: 0;
+    }
     iframe {
       width: 100%;
-      height: 100%;
+      height: 100vh;
       border: none;
     }
   </style>
@@ -122,7 +128,7 @@
       <div class="grupo"> Ejecución Global <i class="fas fa-chevron-down"></i></div>
       <div class="section-content">
         <div class="opcion"><a href="https://jtuiranx.github.io/Xuma/index_ejecucion" onclick="event.stopPropagation(); loadPage(event, 'https://jtuiranx.github.io/Xuma/index_ejecucion')">Ejecucion Promigas</a></div>
-    </div>
+      </div>
     </div>
     <div class="section" onclick="toggleSection(this)">
       <div class="grupo"> Ejecución Individual <i class="fas fa-chevron-down"></i></div>
@@ -133,7 +139,7 @@
         <div class="opcion"><a href="https://jtuiranx.github.io/Xuma/index_surtigas" onclick="event.stopPropagation(); loadPage(event, 'https://jtuiranx.github.io/Xuma/index_surtigas')">Surtigas</a></div>
         <div class="opcion"><a href="https://jtuiranx.github.io/Xuma/index_GDO" onclick="event.stopPropagation(); loadPage(event, 'https://jtuiranx.github.io/Xuma/index_GDO')">GDO</a></div>
         <div class="opcion"><a href="https://jtuiranx.github.io/Xuma/index_CEO" onclick="event.stopPropagation(); loadPage(event, 'https://jtuiranx.github.io/Xuma/index_CEO')">CEO</a></div>
-  </div>
+      </div>
     </div>
   </div>
   <div id="content">
@@ -143,14 +149,19 @@
     function toggleSection(section) {
       section.classList.toggle("open");
     }
-
-    document.getElementById("toggleMenu").onclick = function () {
-      document.getElementById("sidebar").classList.toggle("hidden");
-    }
-
     function loadPage(event, url) {
       event.preventDefault();
       document.getElementById("iframe").src = url;
+    }
+    // Función para asignar la clase 'active' al enlace seleccionado
+    function setActive(element) {
+      document.querySelectorAll('a').forEach(link => {
+        link.classList.remove('active');
+      });
+      element.classList.add('active');
+    }
+    document.getElementById("toggleMenu").onclick = function () {
+      document.getElementById("sidebar").classList.toggle("hidden");
     }
   </script>
 </body>
