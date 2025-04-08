@@ -36,6 +36,7 @@
             width: 100vw;
             height: 105%;
             border: none;
+            overflow: hidden;
         }
         .header {
             background-color: #2c3e50;
@@ -117,22 +118,23 @@
             </div>
         </div>
         <div class="login-box">
+            <h3>Autenticación</h3>
+                <input type="text" id="username" placeholder="Usuario" required>
+                <input type="password" id="password" placeholder="Contraseña" required>
                 <button onclick="login()">Ingresar</button>
         </div>
     </div>
 
     <div id="iframe-container">
         <iframe 
-            src="https://app.powerbi.com/reportEmbed?reportId=b63f9acf-14f6-4627-9faa-c7297b8a4bd0&autoAuth=true&ctid=a36a3bbd-69dd-4835-8522-4b9442c9a174" 
-            frameborder="0"
-        >
+        src="https://app.powerbi.com/view?r=eyJrIjoiNTUwNTI2MTItZjRiZS00ZDkyLWJlNzMtMDY4MGJiODcxNmViIiwidCI6ImEzNmEzYmJkLTY5ZGQtNDgzNS04NTIyLTRiOTQ0MmM5YTE3NCIsImMiOjR9">
         </iframe>
     </div>
 
     <script>
         function login() {
-            var username = "xuma";
-            var password = "revision";
+            var username = document.getElementById("username").value;
+            var password = document.getElementById("password").value;
 
             if (username === "xuma" && password === "revision") {
                 document.getElementById("login-container").style.display = "none";
